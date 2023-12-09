@@ -30,7 +30,19 @@ Before running the application, make sure you have the following dependencies in
 2. Install dependencies:
 
     ```bash
-    pip install -r requirements.txt
+    altgraph==0.17.4
+    ffmpeg-python==0.2.0
+    future==0.18.3
+    numpy==1.24.1
+    packaging==23.2
+    pefile==2023.2.7
+    pyinstaller==6.2.0
+    pyinstaller-hooks-contrib==2023.10
+    PyQt5==5.15.10
+    PyQt5-Qt5==5.15.2
+    PyQt5-sip==12.13.0
+    pywin32-ctypes==0.2.2
+
     ```
 
 ## Usage
