@@ -1,0 +1,11 @@
+{
+  "Set1": [{"URL": "rtsp://example.com/stream0", "Save_name": "Cs_1", "Save_path": "./data"}, 
+           {"URL": "rtsp://example.com/stream1", "Save_name": "Cz_2", "Save_path": "./data"}, 
+           {"URL": "rtsp://example.com/stream2", "Save_name": "Cf_3", "Save_path": "./data"}],
+  "Set2": [{"URL": "rtsp://example.com/stream3", "Save_name": "Cs_1", "Save_path": "./data"}, 
+           {"URL": "rtsp://example.com/stream4", "Save_name": "Cz_2", "Save_path": "./data"}, 
+           {"URL": "rtsp://example.com/stream5", "Save_name": "Cf_3", "Save_path": "./data"}],
+  "Set3": [{"URL": "rtsp://example.com/stream6", "Save_name": "Cs_1", "Save_path": "./data"}, 
+           {"URL": "rtsp://example.com/stream7", "Save_name": "Cz_2", "Save_path": "./data"}, 
+           {"URL": "rtsp://example.com/stream8", "Save_name": "Cf_3", "Save_path": "./data"}],
+}
