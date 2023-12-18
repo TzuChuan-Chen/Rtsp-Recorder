@@ -118,13 +118,13 @@ class MainWindow(QMainWindow):
                 self.camera_settings = json.loads(file_content)
                 for camera_set in self.camera_settings:
                     self.ui.comboBox_cameraSet.addItem(camera_set)
+                for setting in self.camera_settings[self.ui.comboBox_cameraSet.currentText()]:
+                    self.ui.comboBox_cameraPreview.addItem(setting["Save_name"])
                     
         except FileNotFoundError:
             self.message("camera_settings.txt error")
             pass
         
-        for setting in self.camera_settings[self.ui.comboBox_cameraSet.currentText()]:
-            self.ui.comboBox_cameraPreview.addItem(setting["Save_name"])
         
         self.ui.plainTextEdit_logInfo.clear()
         
