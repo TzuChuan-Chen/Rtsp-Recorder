@@ -122,6 +122,9 @@
       </item>
       <item>
        <widget class="QComboBox" name="comboBox_cameraSet">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="font">
          <font>
           <family>Times New Roman</family>
@@ -146,6 +149,9 @@
       </item>
       <item>
        <widget class="QComboBox" name="comboBox_container">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="font">
          <font>
           <family>Times New Roman</family>
@@ -186,7 +192,7 @@
       <item>
        <widget class="QComboBox" name="comboBox_cameraPreview">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <property name="font">
          <font>
@@ -198,6 +204,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_viewer">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -227,6 +236,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_startRec">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>

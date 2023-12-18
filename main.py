@@ -23,14 +23,20 @@ class VideoRecorderThread(QThread):
         self.frame_rate = int(self.frame_rate[0]) / int(self.frame_rate[1])
 
     def run(self):
-        self.ffmpeg_cmd = (
-            ffmpeg.input(self.input_file, rtsp_transport="tcp", use_wallclock_as_timestamps=1, hwaccel="auto")
-            .output(self.output_filename, vcodec='copy')
-            .global_args("-hide_banner", "-loglevel", "error")
-            .run_async(pipe_stdin=True)
-        )
-        # print(self.input_file)
-        self.ffmpeg_cmd.wait()
+        try:
+            self.ffmpeg_cmd = (
+                ffmpeg.input(self.input_file, rtsp_transport="tcp", use_wallclock_as_timestamps=1, hwaccel="auto")
+                .output(self.output_filename, vcodec='copy')
+                .global_args("-hide_banner", "-loglevel", "error")
+                .run_async(pipe_stdin=True)
+            )
+            # print(self.input_file)
+            self.ffmpeg_cmd.wait()
+
+        except ffmpeg.Error as e:
+            print('stdout:', e.stdout.decode('utf8'))
+            print('stderr:', e.stderr.decode('utf8'))
+            raise e
 
     def stop(self):
         if self.ffmpeg_cmd:
@@ -68,6 +74,20 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_stopRec.clicked.connect(self.stop_recording)
         self.ui.pushButton_viewer.clicked.connect(self.display_stream)
         self.ui.pushButton_camSetting.clicked.connect(self.load_camera_settings_on_button_press)
+        self.ui.comboBox_cameraSet.currentIndexChanged.connect(self.update_camera_preview)
+
+    def update_camera_preview(self):
+        selected_camera_set = self.ui.comboBox_cameraSet.currentText()
+
+        if selected_camera_set:
+            self.ui.comboBox_cameraPreview.clear()
+
+            for setting in self.camera_settings[selected_camera_set]:
+                self.ui.comboBox_cameraPreview.addItem(setting["Save_name"])
+        else:
+            self.ui.comboBox_cameraPreview.clear()
+
+
 
     def message(self, message):
         self.ui.plainTextEdit_logInfo.appendPlainText(message)
@@ -137,6 +157,14 @@ class MainWindow(QMainWindow):
                 for setting in self.camera_settings[self.ui.comboBox_cameraSet.currentText()]:
                     self.ui.comboBox_cameraPreview.addItem(setting["Save_name"])
 
+                self.ui.comboBox_cameraPreview.setEnabled(True)
+                self.ui.pushButton_viewer.setEnabled(True)
+                self.ui.pushButton_startRec.setEnabled(True)
+                self.ui.pushButton_stopRec.setEnabled(False)
+                self.ui.pushButton_camSetting.setEnabled(True)
+                self.ui.comboBox_container.setEnabled(True)
+                self.ui.comboBox_cameraSet.setEnabled(True)
+
         except FileNotFoundError:
             self.message("Error loading camera settings file")
             pass
@@ -157,12 +185,18 @@ class MainWindow(QMainWindow):
             "-an",
             "-vf", "fps=30,scale=640:480"
         ]
-        subprocess.Popen(ffplay, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-                         creationflags=subprocess.CREATE_NO_WINDOW)
-
+        try:
+            subprocess.Popen(ffplay, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        except FileNotFoundError:
+            self.message("Error displaying stream")
+            pass
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = MainWindow()
     main_window.show()
     sys.exit(app.exec_())
+
+#todo 
+# 1. camera settings using csv
+# 2. ffmpeg command error handling
